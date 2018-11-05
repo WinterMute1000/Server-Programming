@@ -1,4 +1,4 @@
-<<<<<<< HEAD
+
 #pragma once
 #ifndef _DNSCLIENT_LIB_H__
 #include <winsock2.h>
@@ -6,30 +6,11 @@
 #include <stdio.h>
 #include <conio.h>
 #include "DNSDataHeader.h"
-void ClientEnd(SOCKET); //¿¡·¯ ¹ß»ı ¶§µµ ÇÁ·Î±×·¥À» ³¡³»±â À§ÇÑ ÇÔ¼ö
+void ClientEnd(SOCKET); //ì—ëŸ¬ ë°œìƒ ë•Œë„ í”„ë¡œê·¸ë¨ì„ ëë‚´ê¸° ìœ„í•œ í•¨ìˆ˜
 void err_quit(char *);
 void err_display(char *);
-int SendDomainLength(SOCKET, int*); //¼­¹ö¿¡ µµ¸ŞÀÎ ±æÀÌ Àü¼ÛÇÏ´Â ÇÔ¼ö
-int SendDomain(SOCKET, char*, int); //¼­¹ö¿¡ µµ¸ŞÀÎ Àü¼ÛÇÏ´Â ÇÔ¼ö
-int RecvHeader(SOCKET, DNSDataHeader*); //¼­¹ö¿¡¼­ Çì´õ¸¦ ¹Ş¾Æ¿À´Â ÇÔ¼ö
-int RecvIP(SOCKET, char*,short); //¼­¹ö¿¡¼­ IPÁ¤º¸¸¦ ¹Ş¾Æ¿È
+int SendDomainLength(SOCKET, int*); //ì„œë²„ì— ë„ë©”ì¸ ê¸¸ì´ ì „ì†¡í•˜ëŠ” í•¨ìˆ˜
+int SendDomain(SOCKET, char*, int); //ì„œë²„ì— ë„ë©”ì¸ ì „ì†¡í•˜ëŠ” í•¨ìˆ˜
+int RecvHeader(SOCKET, DNSDataHeader*); //ì„œë²„ì—ì„œ í—¤ë”ë¥¼ ë°›ì•„ì˜¤ëŠ” í•¨ìˆ˜
+int RecvIP(SOCKET, char*,short); //ì„œë²„ì—ì„œ IPì •ë³´ë¥¼ ë°›ì•„ì˜´
 #endif 
-
-=======
-#pragma once
-#ifndef _DNSCLIENT_LIB_H__
-#include <winsock2.h>
-#include <stdlib.h>
-#include <stdio.h>
-#include <conio.h>
-void ClientEnd(SOCKET); //¿¡·¯ ¹ß»ı ¶§µµ ÇÁ·Î±×·¥À» ³¡³»±â À§ÇÑ ÇÔ¼ö
-void err_quit(char *);
-void err_display(char *);
-int SendDomainLength(SOCKET, int*); //¼­¹ö¿¡ µµ¸ŞÀÎ ±æÀÌ Àü¼ÛÇÏ´Â ÇÔ¼ö
-int SendDomain(SOCKET, char*, int); //¼­¹ö¿¡ µµ¸ŞÀÎ Àü¼ÛÇÏ´Â ÇÔ¼ö
-int RecvIPLength(SOCKET, short*); /*¼­¹ö¿¡¼­ IP±æÀÌ¸¦ ¹Ş¾Æ¿À´Â ÇÔ¼ö(IP Á¤º¸´Â ±æÀÌ°¡ 
-°íÁ¤ÀÌ¶ó ¾ø¾îµµ µÇÁö¸¸ Åë½ÅÀÇ ÅëÀÏ¼ºÀ» À§ÇØ »ç¿ë)*/
-int RecvIP(SOCKET, char*,short); //¼­¹ö¿¡¼­ IPÁ¤º¸¸¦ ¹Ş¾Æ¿È
-#endif 
-
->>>>>>> 59d18402c2039f4eb00bac09463320146b8d21d8
