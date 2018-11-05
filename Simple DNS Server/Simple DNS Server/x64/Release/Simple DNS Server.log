@@ -1,3 +1,12 @@
+<<<<<<< HEAD
+﻿  DNSServer_lib.c
+  코드를 생성하고 있습니다.
+  2 of 12 functions (16.7%) were compiled, the rest were copied from previous compilation.
+    0 functions were new in current compilation
+    0 functions had inline decision re-evaluated but remain unchanged
+  코드를 생성했습니다.
+  Simple DNS Server.vcxproj -> C:\Users\reali\OneDrive\문서\Server Programming\Server-Programming\Simple DNS Server\x64\Release\Simple DNS Server.exe
+=======
 ﻿  DNSServer.c
   DNSServer_lib.c
   코드를 생성하고 있습니다.
@@ -6,3 +15,4 @@
     0 functions had inline decision re-evaluated but remain unchanged
   코드를 생성했습니다.
   Simple DNS Server.vcxproj -> C:\Users\reali\OneDrive\문서\Server Programming\Server-Programming\Simple DNS Server\x64\Release\Simple DNS Server.exe
+>>>>>>> 59d18402c2039f4eb00bac09463320146b8d21d8
