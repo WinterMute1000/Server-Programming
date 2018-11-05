@@ -5,13 +5,13 @@
 #include "DNSDataHeader.h"
 
 #define SERVERPORT 9000
-#define BUFSIZE    254 //µµ¸ÞÀÎ³×ÀÓÀÇ ÃÖ´ë±æÀÌ+¸¶Áö¸· ¹®ÀÚ¿­"\0"¸¸Å­ ¼³Á¤
+#define BUFSIZE    254 //ë„ë©”ì¸ë„¤ìž„ì˜ ìµœëŒ€ê¸¸ì´+ë§ˆì§€ë§‰ ë¬¸ìžì—´"\0"ë§Œí¼ ì„¤ì •
 
 int main(int argc, char *argv[])
 {
 	int retval;
 
-	// À©¼Ó ÃÊ±âÈ­
+	// ìœˆì† ì´ˆê¸°í™”
 	WSADATA wsa;
 	if(WSAStartup(MAKEWORD(2,2), &wsa) != 0)
 		return 1;
@@ -33,14 +33,14 @@ int main(int argc, char *argv[])
 	retval = listen(listen_sock, SOMAXCONN);
 	if(retval == SOCKET_ERROR) err_quit("listen()");
 
-	// µ¥ÀÌÅÍ Åë½Å¿¡ »ç¿ëÇÒ º¯¼ö
+	// ë°ì´í„° í†µì‹ ì— ì‚¬ìš©í•  ë³€ìˆ˜
 	SOCKET client_sock;
 	SOCKADDR_IN clientaddr;
 	int addrlen;
 	char buf[BUFSIZE+1];
 	int len;
-	DNSDataHeader header;//Çì´õ µ¥ÀÌÅÍ º¯¼ö
-	struct hostent* domain_ip; //µµ¸ÞÀÎ IPÁ¤º¸¸¦ ÀúÀåÇÒ º¯¼ö
+	DNSDataHeader header;//í—¤ë” ë°ì´í„° ë³€ìˆ˜
+	struct hostent* domain_ip; //ë„ë©”ì¸ IPì •ë³´ë¥¼ ì €ìž¥í•  ë³€ìˆ˜
 
 	ZeroMemory(&header, sizeof(header));
 
@@ -54,14 +54,14 @@ int main(int argc, char *argv[])
 			break;
 		}
 
-		// Á¢¼ÓÇÑ Å¬¶óÀÌ¾ðÆ® Á¤º¸ Ãâ·Â
+		// ì ‘ì†í•œ í´ë¼ì´ì–¸íŠ¸ ì •ë³´ ì¶œë ¥
 		printf("\n[TCP Server] Client: IP Address=%s, port=%d\n",
 			inet_ntoa(clientaddr.sin_addr), ntohs(clientaddr.sin_port));
 
-		// Å¬¶óÀÌ¾ðÆ®¿Í µ¥ÀÌÅÍ Åë½Å
+		// í´ë¼ì´ì–¸íŠ¸ì™€ ë°ì´í„° í†µì‹ 
 		while(1)
 		{
-			// µµ¸ÞÀÎÀÇ ±æÀÌ¸¦ ÀÐ¾î¿È
+			// ë„ë©”ì¸ì˜ ê¸¸ì´ë¥¼ ì½ì–´ì˜´
 			retval = RecvDomainLength(client_sock, (char*)&len);
 			if(retval == SOCKET_ERROR)
 			{
@@ -71,7 +71,7 @@ int main(int argc, char *argv[])
 			else if(retval == 0)
 				break;
 
-			//µµ¸ÞÀÎÀ» ÀÐ¾î¿È
+			//ë„ë©”ì¸ì„ ì½ì–´ì˜´
 			retval = GetDomain(client_sock, buf, len);
 			if (retval == SOCKET_ERROR)
 			{
@@ -81,29 +81,29 @@ int main(int argc, char *argv[])
 			else if (retval == 0)
 				break;
 
-			// ¹ÞÀº µµ¸ÞÀÎ Ãâ·Â
+			// ë°›ì€ ë„ë©”ì¸ ì¶œë ¥
 			buf[retval] = '\0';
 			printf("[TCP/%s:%d] %s\n", inet_ntoa(clientaddr.sin_addr),
 				ntohs(clientaddr.sin_port), buf);
-			//µµ¸ÞÀÎÀ» IP·Î ÀüÈ¯
+			//ë„ë©”ì¸ì„ IPë¡œ ì „í™˜
 			domain_ip = DomainToIP(buf);
 
-			if (domain_ip == NULL) //µµ¸ÞÀÎ ÀüÈ¯ ½ÇÆÐ½Ã
+			if (domain_ip == NULL) //ë„ë©”ì¸ ì „í™˜ ì‹¤íŒ¨ì‹œ
 			{
 				printf(ERROR_MESSAGE);
 				header.is_domain_error = TRUE;
 				header.length = (short)strlen(ERROR_MESSAGE);
 			}
 
-			else //¼º°ø½Ã
+			else //ì„±ê³µì‹œ
 			{
 				header.is_domain_error = FALSE;
 				header.length = domain_ip->h_length;
 				printf("%s %zd", inet_ntoa(*(struct in_addr*)domain_ip->h_addr),
-					(size_t)domain_ip->h_length); //º¸³»±âÀü¿¡ È®ÀÎ
+					(size_t)domain_ip->h_length); //ë³´ë‚´ê¸°ì „ì— í™•ì¸
 
 			}
-			retval = SendHeader(client_sock, &header); //Çì´õ ¸ÕÀú º¸³¿
+			retval = SendHeader(client_sock, &header); //í—¤ë” ë¨¼ì € ë³´ëƒ„
 			if (retval == SOCKET_ERROR)
 			{
 				err_display("Can't Send Header!");
@@ -111,9 +111,9 @@ int main(int argc, char *argv[])
 			}
 
 			retval = 0;
-			if(!header.is_domain_error) //¿¡·¯ ¾Æ´Ò ½Ã
-				retval = SendIPInfo(client_sock, domain_ip->h_addr, header.length);//º¯È¯µÈ IP¸¦ Å¬¶óÀÌ¾ðÆ®¿¡°Ô º¸³¿
-				//ÀÌ µµ¸ÞÀÎÀ» ´ëÇ¥ÇÏ´Â IPÁÖ¼Ò°¡ domain_ip->h_addr]ÀÌ¹Ç·Î ÀÌ°ÍÀ» º¸³¿
+			if(!header.is_domain_error) //ì—ëŸ¬ ì•„ë‹ ì‹œ
+				retval = SendIPInfo(client_sock, domain_ip->h_addr, header.length);//ë³€í™˜ëœ IPë¥¼ í´ë¼ì´ì–¸íŠ¸ì—ê²Œ ë³´ëƒ„
+				//ì´ ë„ë©”ì¸ì„ ëŒ€í‘œí•˜ëŠ” IPì£¼ì†Œê°€ domain_ip->h_addr]ì´ë¯€ë¡œ ì´ê²ƒì„ ë³´ëƒ„
 
 			if (retval == SOCKET_ERROR)
 			{
@@ -130,122 +130,7 @@ int main(int argc, char *argv[])
 	// closesocket()
 	closesocket(listen_sock);
 
-	// À©¼Ó Á¾·á
+	// ìœˆì† ì¢…ë£Œ
 	WSACleanup();
 	return 0;
-=======
-#pragma comment(lib, "ws2_32")
-#pragma warning (disable: 4996)
-#include "DNSServer_lib.h"
-
-#define SERVERPORT 9000
-#define BUFSIZE    254 //µµ¸ÞÀÎ³×ÀÓÀÇ ÃÖ´ë±æÀÌ+¸¶Áö¸· ¹®ÀÚ¿­"\0"¸¸Å­ ¼³Á¤
-
-int main(int argc, char *argv[])
-{
-	int retval;
-
-	// À©¼Ó ÃÊ±âÈ­
-	WSADATA wsa;
-	if(WSAStartup(MAKEWORD(2,2), &wsa) != 0)
-		return 1;
-
-	// socket()
-	SOCKET listen_sock = socket(AF_INET, SOCK_STREAM, 0);
-	if(listen_sock == INVALID_SOCKET) err_quit("socket()");
-
-	// bind()
-	SOCKADDR_IN serveraddr;
-	ZeroMemory(&serveraddr, sizeof(serveraddr));
-	serveraddr.sin_family = AF_INET;
-	serveraddr.sin_addr.s_addr = htonl(INADDR_ANY);
-	serveraddr.sin_port = htons(SERVERPORT);
-	retval = bind(listen_sock, (SOCKADDR *)&serveraddr, sizeof(serveraddr));
-	if(retval == SOCKET_ERROR) err_quit("bind()");
-
-	// listen()
-	retval = listen(listen_sock, SOMAXCONN);
-	if(retval == SOCKET_ERROR) err_quit("listen()");
-
-	// µ¥ÀÌÅÍ Åë½Å¿¡ »ç¿ëÇÒ º¯¼ö
-	SOCKET client_sock;
-	SOCKADDR_IN clientaddr;
-	int addrlen;
-	char buf[BUFSIZE+1];
-	int len;
-	struct hostent* domain_ip; //µµ¸ÞÀÎ IPÁ¤º¸¸¦ ÀúÀåÇÒ º¯¼ö
-
-	while(1){
-		// accept()
-		addrlen = sizeof(clientaddr);
-		client_sock = accept(listen_sock, (SOCKADDR *)&clientaddr, &addrlen);
-		if(client_sock == INVALID_SOCKET)
-		{
-			err_display("accept()");
-			break;
-		}
-
-		// Á¢¼ÓÇÑ Å¬¶óÀÌ¾ðÆ® Á¤º¸ Ãâ·Â
-		printf("\n[TCP Server] Client: IP Address=%s, port=%d\n",
-			inet_ntoa(clientaddr.sin_addr), ntohs(clientaddr.sin_port));
-
-		// Å¬¶óÀÌ¾ðÆ®¿Í µ¥ÀÌÅÍ Åë½Å
-		while(1)
-		{
-			// µµ¸ÞÀÎÀÇ ±æÀÌ¸¦ ÀÐ¾î¿È
-			retval = RecvDomainLength(client_sock, (char*)&len);
-			if(retval == SOCKET_ERROR)
-			{
-				err_display("Can't receive domain length!");
-				break;
-			}
-			else if(retval == 0)
-				break;
-
-			//µµ¸ÞÀÎÀ» ÀÐ¾î¿È
-			retval = GetDomain(client_sock, buf, len);
-			if(retval == SOCKET_ERROR)
-			{
-				err_display("Can't receive domain!");
-				break;
-			}
-			else if(retval == 0)
-				break;
-
-			// ¹ÞÀº µµ¸ÞÀÎ Ãâ·Â
-			buf[retval] = '\0';
-			printf("[TCP/%s:%d] %s\n", inet_ntoa(clientaddr.sin_addr),
-				ntohs(clientaddr.sin_port), buf);
-			//µµ¸ÞÀÎÀ» IP·Î ÀüÈ¯
-			domain_ip = DomainToIP(buf);
-			printf("%s %zd", inet_ntoa(*(struct in_addr*)domain_ip->h_addr), 
-				(size_t)domain_ip->h_length); //º¸³»±âÀü¿¡ È®ÀÎ
-
-			retval = SendIPLength(client_sock, &domain_ip->h_length); //IPÁÖ¼Ò ±æÀÌ ¸ÕÀú º¸³¿
-			if (retval == SOCKET_ERROR) 
-			{
-				err_display("Can't Send IP Length!");
-				break;
-			}
-			retval = SendIPInfo(client_sock, domain_ip->h_addr, domain_ip->h_length);//º¯È¯µÈ IP¸¦ Å¬¶óÀÌ¾ðÆ®¿¡°Ô º¸³¿
-			 //ÀÌ µµ¸ÞÀÎÀ» ´ëÇ¥ÇÏ´Â IPÁÖ¼Ò°¡ domain_ip->h_addr]ÀÌ¹Ç·Î ÀÌ°ÍÀ» º¸³¿
-			if (retval == SOCKET_ERROR)
-			{
-				err_display("Can't Send IP Info!");
-				break;
-			}
-			
-		}
-
-		// closesocket()
-		closesocket(client_sock);
-	}
-
-	// closesocket()
-	closesocket(listen_sock);
-
-	// À©¼Ó Á¾·á
-	WSACleanup();
-	return 0;
->>>>>>> 59d18402c2039f4eb00bac09463320146b8d21d8
 }
