@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 #pragma once
 #ifndef _DNSSERVER_LIB_H__
 #include <winsock2.h>
@@ -8,28 +7,11 @@
 #define ERROR_MESSAGE "Can't get Domain\n"
 void err_quit(char *msg);
 void err_display(char *msg);
-int SendIPInfo(SOCKET, char*, short);//Å¬¶óÀÌ¾ğÆ®¿¡°Ô IPÁÖ¼Ò Á¤º¸ Àü¼Û
-int recvn(SOCKET, char *, int, int);// »ç¿ëÀÚ Á¤ÀÇ µ¥ÀÌÅÍ ¼ö½Å ÇÔ¼ö
-int RecvDomainLength(SOCKET,char*); //Å¬¶óÀÌ¾ğÆ®°¡ º¸³½ µµ¸ŞÀÎÀÇ ÁÖ¼ÒÀÇ ±æÀÌ¸¦ ÀĞ¾î¿È
-int SendHeader(SOCKET, DNSDataHeader*); //Å¬¶óÀÌ¾ğÆ®¿¡°Ô Çì´õ¸¦ º¸³¿(µ¥ÀÌÅÍ º¸³»±â µ¿ÀÏ¼º ¹× ¿¡·¯Ã³¸®)
-int GetDomain(SOCKET,char*,int);// Å¬¶óÀÌ¾ğÆ®°¡ º¸³½ µµ¸ŞÀÎÀ» ÀĞ¾î¿È
-struct hostent* DomainToIP(const char*); //µµ¸ŞÀÎÁÖ¼Ò¸¦ IPÁÖ¼Ò·Î ÀüÈ¯
+int SendIPInfo(SOCKET, char*, short);//í´ë¼ì´ì–¸íŠ¸ì—ê²Œ IPì£¼ì†Œ ì •ë³´ ì „ì†¡
+int recvn(SOCKET, char *, int, int);// ì‚¬ìš©ì ì •ì˜ ë°ì´í„° ìˆ˜ì‹  í•¨ìˆ˜
+int RecvDomainLength(SOCKET,char*); //í´ë¼ì´ì–¸íŠ¸ê°€ ë³´ë‚¸ ë„ë©”ì¸ì˜ ì£¼ì†Œì˜ ê¸¸ì´ë¥¼ ì½ì–´ì˜´
+int SendHeader(SOCKET, DNSDataHeader*); //í´ë¼ì´ì–¸íŠ¸ì—ê²Œ í—¤ë”ë¥¼ ë³´ëƒ„(ë°ì´í„° ë³´ë‚´ê¸° ë™ì¼ì„± ë° ì—ëŸ¬ì²˜ë¦¬)
+int GetDomain(SOCKET,char*,int);// í´ë¼ì´ì–¸íŠ¸ê°€ ë³´ë‚¸ ë„ë©”ì¸ì„ ì½ì–´ì˜´
+struct hostent* DomainToIP(const char*); //ë„ë©”ì¸ì£¼ì†Œë¥¼ IPì£¼ì†Œë¡œ ì „í™˜
 #endif 
 
-=======
-#pragma once
-#ifndef _DNSSERVER_LIB_H__
-#include <winsock2.h>
-#include <stdlib.h>
-#include <stdio.h>
-void err_quit(char *msg);
-void err_display(char *msg);
-int SendIPInfo(SOCKET, char*, short);//Å¬¶óÀÌ¾ğÆ®¿¡°Ô IPÁÖ¼Ò Á¤º¸ Àü¼Û
-int recvn(SOCKET, char *, int, int);// »ç¿ëÀÚ Á¤ÀÇ µ¥ÀÌÅÍ ¼ö½Å ÇÔ¼ö
-int RecvDomainLength(SOCKET,char*); //Å¬¶óÀÌ¾ğÆ®°¡ º¸³½ µµ¸ŞÀÎÀÇ ÁÖ¼ÒÀÇ ±æÀÌ¸¦ ÀĞ¾î¿È
-int SendIPLength(SOCKET, short*); //Å¬¶óÀÌ¾ğÆ®¿¡°Ô IPÁÖ¼ÒÀÇ ±æÀÌ¸¦ º¸³¿(µ¥ÀÌÅÍ º¸³»±â ÅëÀÏ¼ºÀ» À§ÇÔ)
-int GetDomain(SOCKET,char*,int);// Å¬¶óÀÌ¾ğÆ®°¡ º¸³½ µµ¸ŞÀÎÀ» ÀĞ¾î¿È
-struct hostent* DomainToIP(const char*); //µµ¸ŞÀÎÁÖ¼Ò¸¦ IPÁÖ¼Ò·Î ÀüÈ¯
-#endif 
-
->>>>>>> 59d18402c2039f4eb00bac09463320146b8d21d8
