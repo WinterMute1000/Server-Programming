@@ -1,0 +1,8 @@
+﻿  ChattingCommon_lib.c
+ChattingCommon_lib.c(132): warning C4267: '초기화 중': 'size_t'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+ChattingCommon_lib.c(147): warning C4267: '초기화 중': 'size_t'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+  ChattingClient.c
+  코드를 생성하고 있습니다.
+  All 11 functions were compiled because no usable IPDB/IOBJ from previous compilation was found.
+  코드를 생성했습니다.
+  Simple Chatting Client.vcxproj -> C:\Users\reali\source\repos\Simple Chatting Client\x64\Release\Simple Chatting Client.exe
