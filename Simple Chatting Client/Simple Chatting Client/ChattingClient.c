@@ -11,7 +11,7 @@ int main(int argc, char *argv[])
 	SocketInfo sock_info;
 	HANDLE recv_thread;
 	int retval;
-	// À©¼Ó ÃÊ±âÈ­
+	// ìœˆì† ì´ˆê¸°í™”
 	WSADATA wsa;
 	if(WSAStartup(MAKEWORD(2,2), &wsa) != 0)
 		return 1;
@@ -23,12 +23,12 @@ int main(int argc, char *argv[])
 	recv_thread = CreateThread(NULL, 0, RecvThreadFunction, &sock_info, 0, NULL);
 	printf("If You Want Send Message, Please Enter.(Chatting Over:End)\n");
 
-	while (!is_chatting_over) //1:´Ù ÀÌ¸é select³ª IOCP¸¦ ÅëÇØ¼­ ºñµ¿±âÀû ÀÔÃâ·ÂÀ» ¼öÇàÇØ¾ß ÇÏÁö¸¸ 1:1ÀÌ¹Ç·Î ÇÏ³ªÀÇ ¹İº¹¹®À¸·Î Ãâ·Â Ã³¸®
+	while (!is_chatting_over) //1:ë‹¤ ì´ë©´ selectë‚˜ IOCPë¥¼ í†µí•´ì„œ ë¹„ë™ê¸°ì  ì…ì¶œë ¥ì„ ìˆ˜í–‰í•´ì•¼ í•˜ì§€ë§Œ 1:1ì´ë¯€ë¡œ í•˜ë‚˜ì˜ ë°˜ë³µë¬¸ìœ¼ë¡œ ì¶œë ¥ ì²˜ë¦¬
 	{
-		char temp_buf[BUFSIZE]; //¹®ÀÚ¿­ ÀüÈ¯¿ë ÀÓ½Ã¹öÆÛ
+		char temp_buf[BUFSIZE]; //ë¬¸ìì—´ ì „í™˜ìš© ì„ì‹œë²„í¼
 
 		gets_s(sock_info.send_buf, BUFSIZE);
-		if (is_chatting_over) //Ã¤ÆÃÀÌ while¹® µµÁß¿¡ ÀĞ±â ¾²·¹µå¿¡¼­ ³¡³ÂÀ» °æ¿ì
+		if (is_chatting_over) //ì±„íŒ…ì´ whileë¬¸ ë„ì¤‘ì— ì½ê¸° ì“°ë ˆë“œì—ì„œ ëëƒˆì„ ê²½ìš°
 		{
 			printf("Chatting was over!\n");
 			continue;
@@ -37,7 +37,7 @@ int main(int argc, char *argv[])
 		strupr(temp_buf);
 
 		if (!strncmp(temp_buf, END_MESSAGE,
-			strnlen(sock_info.send_buf, BUFSIZE))) //Á¾·á ¸Ş¼¼Áö ÀÔ·ÂÈ®ÀÎ
+			strnlen(sock_info.send_buf, BUFSIZE))) //ì¢…ë£Œ ë©”ì„¸ì§€ ì…ë ¥í™•ì¸
 		{
 			retval = SendChttingOverMessage(sock_info.sock);
 
@@ -54,10 +54,11 @@ int main(int argc, char *argv[])
 		{
 			retval = SendChattingMessage(sock_info);
 
-			if (retval == SOCKET_ERROR)
+			if (!is_chatting_over)//ì±„íŒ…ì´ ëë‚¬ëŠ”ë° ë³´ë‚¸ ê±¸ ìˆ˜ë„ ìˆìŒ. ì´ê²ƒì„ ì²˜ë¦¬
 			{
+				retval = SendChttingOverMessage(sock_info.sock);
 
-				if (!is_chatting_over)//Ã¤ÆÃÀÌ ³¡³µ´Âµ¥ º¸³½ °É ¼öµµ ÀÖÀ½. ÀÌ°ÍÀ» Ã³¸®
+				if (retval == SOCKET_ERROR)
 				{
 					err_display("Send()");
 					exit(-1);
@@ -67,7 +68,7 @@ int main(int argc, char *argv[])
 	}
 
 	WaitForSingleObject(recv_thread, INFINITE);
-	// À©¼Ó Á¾·á
+	// ìœˆì† ì¢…ë£Œ
 	WSACleanup();
 	return 0;
 }
