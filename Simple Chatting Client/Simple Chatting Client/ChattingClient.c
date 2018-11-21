@@ -56,13 +56,13 @@ int main(int argc, char *argv[])
 
 			if (!is_chatting_over)//채팅이 끝났는데 보낸 걸 수도 있음. 이것을 처리
 			{
-				retval = SendChttingOverMessage(sock_info.sock);
-
-				if (retval == SOCKET_ERROR)
-				{
-					err_display("Send()");
-					exit(-1);
-				}
+					if(!is_chatting_over)//채팅이 끝났는데 보낸 걸 수도 있음. 이것을 처리
+						printf("Chatting already over.");
+					else
+					{
+						err_display("Send()");
+						exit(-1);
+					}
 			}
 		}
 	}
