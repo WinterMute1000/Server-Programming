@@ -1,14 +1,14 @@
 #pragma comment(lib, "ws2_32")
 #pragma warning (disable :4996)
 #include "ChattingCommon_lib.h"
-extern BOOL is_chatting_over; //¾²·¹µå Á¾·á(Ã¤ÆÃ Á¾·á¸¦ È®ÀÎÇÏ±â À§ÇÑ)¿ÜºÎ¿¡ ¾²ÀÏ Àü¿ªº¯¼ö
+extern BOOL is_chatting_over; //ì“°ë ˆë“œ ì¢…ë£Œ(ì±„íŒ… ì¢…ë£Œë¥¼ í™•ì¸í•˜ê¸° ìœ„í•œ)ì™¸ë¶€ì— ì“°ì¼ ì „ì—­ë³€ìˆ˜
 int main(int argc, char *argv[])
 {
 	int retval;
 	SocketInfo server_info;
 	HANDLE recv_thread = NULL;
 
-	// À©¼Ó ÃÊ±âÈ­
+	// ìœˆì† ì´ˆê¸°í™”
 	WSADATA wsa;
 	if(WSAStartup(MAKEWORD(2,2), &wsa) != 0)
 		return 1;
@@ -22,8 +22,8 @@ int main(int argc, char *argv[])
 	if(retval == SOCKET_ERROR) 
 		err_quit("listen()");
 
-	// µ¥ÀÌÅÍ Åë½Å¿¡ »ç¿ëÇÒ º¯¼ö
-	SocketInfo client_info; //ÀĞ±â¿Í ¾²±â ¹öÆÛ¸¦ µû·Î ¼³Á¤ÇßÀ¸¹Ç·Î ¾²·¹µå µ¿±âÈ­´Â ÇÊ¿ä¾øÀ½
+	// ë°ì´í„° í†µì‹ ì— ì‚¬ìš©í•  ë³€ìˆ˜
+	SocketInfo client_info; //ì½ê¸°ì™€ ì“°ê¸° ë²„í¼ë¥¼ ë”°ë¡œ ì„¤ì •í–ˆìœ¼ë¯€ë¡œ ì“°ë ˆë“œ ë™ê¸°í™”ëŠ” í•„ìš”ì—†ìŒ
 	int addrlen;
 
 	while(1)
@@ -37,24 +37,24 @@ int main(int argc, char *argv[])
 			break;
 		}
 
-		// Á¢¼ÓÇÑ Å¬¶óÀÌ¾ğÆ® Á¤º¸ Ãâ·Â
+		// ì ‘ì†í•œ í´ë¼ì´ì–¸íŠ¸ ì •ë³´ ì¶œë ¥
 		printf("\n[Server] Client Infomation : IP=%s, port:%d\n",
 		inet_ntoa(client_info.sock_addr.sin_addr), ntohs(client_info.sock_addr.sin_port));
 
-		// Å¬¶óÀÌ¾ğÆ®¿Í µ¥ÀÌÅÍ Åë½Å
-		// ÀĞ±â¸¦ µû·Î Ã³¸®ÇÒ ¾²·¹µå »ı¼º
+		// í´ë¼ì´ì–¸íŠ¸ì™€ ë°ì´í„° í†µì‹ 
+		// ì½ê¸°ë¥¼ ë”°ë¡œ ì²˜ë¦¬í•  ì“°ë ˆë“œ ìƒì„±
 		recv_thread = CreateThread(NULL, 0, RecvThreadFunction, &client_info, 0, NULL);
 
-		// ¾²±â´Â ¸ŞÀÎÇÔ¼ö¿¡¼­ Ã³¸®(µû·Î Ã³¸®ÇÒ ÇÊ¿ä°¡ ¾øÀ½)
+		// ì“°ê¸°ëŠ” ë©”ì¸í•¨ìˆ˜ì—ì„œ ì²˜ë¦¬(ë”°ë¡œ ì²˜ë¦¬í•  í•„ìš”ê°€ ì—†ìŒ)
 		printf("If You Want Send Message, Please Enter.(Chatting Over:End)\n");
 		is_chatting_over = FALSE;
 
-		while (!is_chatting_over) //1:´Ù ÀÌ¸é select³ª IOCP¸¦ ÅëÇØ¼­ ºñµ¿±âÀû ÀÔÃâ·ÂÀ» ¼öÇàÇØ¾ß ÇÏÁö¸¸ 1:1ÀÌ¹Ç·Î ÇÏ³ªÀÇ ¹İº¹¹®À¸·Î Ãâ·Â Ã³¸®
+		while (!is_chatting_over) //1:ë‹¤ ì´ë©´ selectë‚˜ IOCPë¥¼ í†µí•´ì„œ ë¹„ë™ê¸°ì  ì…ì¶œë ¥ì„ ìˆ˜í–‰í•´ì•¼ í•˜ì§€ë§Œ 1:1ì´ë¯€ë¡œ í•˜ë‚˜ì˜ ë°˜ë³µë¬¸ìœ¼ë¡œ ì¶œë ¥ ì²˜ë¦¬
 		{
-			char temp_buf[BUFSIZE]; //¹®ÀÚ¿­ ÀüÈ¯¿ë ÀÓ½Ã¹öÆÛ
+			char temp_buf[BUFSIZE]; //ë¬¸ìì—´ ì „í™˜ìš© ì„ì‹œë²„í¼
 			
 			gets_s(client_info.send_buf,BUFSIZE);
-			if (is_chatting_over) //Ã¤ÆÃÀÌ while¹® µµÁß¿¡ ÀĞ±â ¾²·¹µå¿¡¼­ ³¡³ÂÀ» °æ¿ì
+			if (is_chatting_over) //ì±„íŒ…ì´ whileë¬¸ ë„ì¤‘ì— ì½ê¸° ì“°ë ˆë“œì—ì„œ ëëƒˆì„ ê²½ìš°
 			{
 				printf("Chatting was over!\n");
 				continue;
@@ -63,7 +63,7 @@ int main(int argc, char *argv[])
 			strupr(temp_buf);
 
 			if (!strncmp(temp_buf, END_MESSAGE,
-				strnlen(client_info.send_buf, BUFSIZE))) //Á¾·á ¸Ş¼¼Áö ÀÔ·ÂÈ®ÀÎ
+				strnlen(client_info.send_buf, BUFSIZE))) //ì¢…ë£Œ ë©”ì„¸ì§€ ì…ë ¥í™•ì¸
 			{
 				retval = SendChttingOverMessage(client_info.sock);
 
@@ -82,10 +82,14 @@ int main(int argc, char *argv[])
 
 				if (retval == SOCKET_ERROR)
 				{
-						if(!is_chatting_over)//Ã¤ÆÃÀÌ ³¡³µ´Âµ¥ º¸³½ °É ¼öµµ ÀÖÀ½. ÀÌ°ÍÀ» Ã³¸®
+						if(!is_chatting_over)//ì±„íŒ…ì´ ëë‚¬ëŠ”ë° ë³´ë‚¸ ê±¸ ìˆ˜ë„ ìˆìŒ. ì´ê²ƒì„ ì²˜ë¦¬
 						{
-							err_display("Send()");
-							exit(-1);
+							retval = SendChattingOverMessage(client_info.sock);
+							if (retval == SOCKET_ERROR)
+							{
+								err_display("Send()");
+								exit(-1);
+							}
 						}
 				}
 			}
@@ -97,7 +101,7 @@ int main(int argc, char *argv[])
 	// closesocket()
 	closesocket(server_info.sock);
 
-	// À©¼Ó Á¾·á
+	// ìœˆì† ì¢…ë£Œ
 	WSACleanup();
 	return 0;
 }
