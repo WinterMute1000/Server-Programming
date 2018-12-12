@@ -1,0 +1,9 @@
+﻿  SocketLib.c
+c:\users\reali\source\repos\downloadclient_just_thread\downloadclient_just_thread\socketlib.c(166): warning C4101: 'recv_len' :참조되지 않은 지역 변수입니다.
+c:\users\reali\source\repos\downloadclient_just_thread\downloadclient_just_thread\socketlib.c(167): warning C4101: 'handle_info' :참조되지 않은 지역 변수입니다.
+c:\users\reali\source\repos\downloadclient_just_thread\downloadclient_just_thread\socketlib.c(166): warning C4101: 'byte_tran' :참조되지 않은 지역 변수입니다.
+  main.c
+  CRC.c
+c:\users\reali\source\repos\downloadclient_just_thread\downloadclient_just_thread\crc.c(12): warning C4047: '!=': '::size_t'의 간접 참조 수준이 'void *'과(와) 다릅니다.
+  코드를 생성하고 있습니다...
+  DownloadClient_Just_Thread.vcxproj -> C:\Users\reali\source\repos\DownloadClient_Just_Thread\Debug\DownloadClient_Just_Thread.exe

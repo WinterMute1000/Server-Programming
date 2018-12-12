@@ -1,0 +1,5 @@
+﻿  main.c
+c:\users\reali\source\repos\downloadserver_just_thread\downloadserver_just_thread\main.c(15): warning C4101: 'temp_buffer' :참조되지 않은 지역 변수입니다.
+  SocketLib.c
+  코드를 생성하고 있습니다...
+  DownloadServer_Just_Thread.vcxproj -> C:\Users\reali\source\repos\DownloadServer_Just_Thread\Debug\DownloadServer_Just_Thread.exe
