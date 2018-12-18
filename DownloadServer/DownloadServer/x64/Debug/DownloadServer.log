@@ -1,0 +1,19 @@
+﻿  ServerLib.c
+c:\users\reali\source\repos\downloadserver\downloadserver\serverlib.c(116): warning C4267: '=': 'size_t'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\reali\source\repos\downloadserver\downloadserver\serverlib.c(118): warning C4133: '함수': 'LPDWORD'과(와) 'PULONG_PTR' 사이의 형식이 호환되지 않습니다.
+c:\users\reali\source\repos\downloadserver\downloadserver\serverlib.c(126): warning C4267: '=': 'size_t'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\reali\source\repos\downloadserver\downloadserver\serverlib.c(128): warning C4133: '함수': 'LPDWORD'과(와) 'PULONG_PTR' 사이의 형식이 호환되지 않습니다.
+c:\users\reali\source\repos\downloadserver\downloadserver\serverlib.c(120): warning C4477: 'printf' : 서식 문자열 '%zd'에 'unsigned __int64' 형식의 인수가 필요하지만 variadic 인수 1의 형식이 'int'입니다.
+  c:\users\reali\source\repos\downloadserver\downloadserver\serverlib.c(120): note: 서식 문자열에서 '%d'을(를) 사용하는 것이 좋습니다.
+  c:\users\reali\source\repos\downloadserver\downloadserver\serverlib.c(120): note: 서식 문자열에서 '%I32d'을(를) 사용하는 것이 좋습니다.
+c:\users\reali\source\repos\downloadserver\downloadserver\serverlib.c(120): warning C4477: 'printf' : 서식 문자열 '%zd'에 'unsigned __int64' 형식의 인수가 필요하지만 variadic 인수 2의 형식이 'int'입니다.
+  c:\users\reali\source\repos\downloadserver\downloadserver\serverlib.c(120): note: 서식 문자열에서 '%d'을(를) 사용하는 것이 좋습니다.
+  c:\users\reali\source\repos\downloadserver\downloadserver\serverlib.c(120): note: 서식 문자열에서 '%I32d'을(를) 사용하는 것이 좋습니다.
+c:\users\reali\source\repos\downloadserver\downloadserver\serverlib.c(130): warning C4477: 'printf' : 서식 문자열 '%zd'에 'unsigned __int64' 형식의 인수가 필요하지만 variadic 인수 1의 형식이 'int'입니다.
+  c:\users\reali\source\repos\downloadserver\downloadserver\serverlib.c(130): note: 서식 문자열에서 '%d'을(를) 사용하는 것이 좋습니다.
+  c:\users\reali\source\repos\downloadserver\downloadserver\serverlib.c(130): note: 서식 문자열에서 '%I32d'을(를) 사용하는 것이 좋습니다.
+c:\users\reali\source\repos\downloadserver\downloadserver\serverlib.c(130): warning C4477: 'printf' : 서식 문자열 '%zd'에 'unsigned __int64' 형식의 인수가 필요하지만 variadic 인수 2의 형식이 'int'입니다.
+  c:\users\reali\source\repos\downloadserver\downloadserver\serverlib.c(130): note: 서식 문자열에서 '%d'을(를) 사용하는 것이 좋습니다.
+  c:\users\reali\source\repos\downloadserver\downloadserver\serverlib.c(130): note: 서식 문자열에서 '%I32d'을(를) 사용하는 것이 좋습니다.
+c:\users\reali\source\repos\downloadserver\downloadserver\serverlib.c(104): warning C4101: 'err_confirm' :참조되지 않은 지역 변수입니다.
+  DownloadServer.vcxproj -> C:\Users\reali\source\repos\DownloadServer\x64\Debug\DownloadServer.exe
