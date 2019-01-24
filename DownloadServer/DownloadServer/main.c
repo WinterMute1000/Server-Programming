@@ -8,7 +8,7 @@ HANDLE thread_pool[THREAD_NUMBER];
 CRITICAL_SECTION cs;
 int main()
 {
-	//1. TCP ¼ÒÄÏ ¿¬°á Ã³¸® ¹× IOCP °ü·Ã ÃÊ±âÈ­(ÇÊ¿äÇÏ´Ù¸é µ¿±âÈ­ Ã³¸®µµ)
+	//1. TCP ì†Œì¼“ ì—°ê²° ì²˜ë¦¬ ë° IOCP ê´€ë ¨ ì´ˆê¸°í™”(í•„ìš”í•˜ë‹¤ë©´ ë™ê¸°í™” ì²˜ë¦¬ë„)
 
 	int retval,i;
 	ServerInfo server_info;
@@ -17,7 +17,7 @@ int main()
 	LPOVERLAPPED overlapped_pointer;
 	DWORD bytetrans=0;
 
-	// À©¼Ó ÃÊ±âÈ­
+	// ìœˆì† ì´ˆê¸°í™”
 	WSADATA wsa;
 	if (WSAStartup(MAKEWORD(2, 2), &wsa) != 0)
 		return 1;
@@ -32,7 +32,7 @@ int main()
 	if (retval == SOCKET_ERROR)
 		err_quit("listen()");
 
-	// µ¥ÀÌÅÍ Åë½Å¿¡ »ç¿ëÇÒ º¯¼ö
+	// ë°ì´í„° í†µì‹ ì— ì‚¬ìš©í•  ë³€ìˆ˜
 	ClientInfo client_info;
 	IOInfo io_info;
 	int addrlen;
@@ -55,8 +55,8 @@ int main()
 		io_info.client_info = &client_info;
 
 		printf("File Download Start.\n");
-		//2. ÆÄÀÏ Ãâ·ÂÀ» À§ÇÑ ¾²·¹µå »ı¼º (¹× IOCPÃ³¸®)
-		//¿©±â¿¡ fopen »ç¿ë
+		//2. íŒŒì¼ ì¶œë ¥ì„ ìœ„í•œ ì“°ë ˆë“œ ìƒì„± (ë° IOCPì²˜ë¦¬)
+		//ì—¬ê¸°ì— fopen ì‚¬ìš©
 		client_info.file_info.file = fopen("download.mp4", "rb");
 		if (client_info.file_info.file == NULL)
 		{
@@ -64,7 +64,7 @@ int main()
 			_getch();
 			exit(-1);
 		}
-		client_info.file_info.file_size = GetFileSizeToFilePointer(client_info.file_info.file); //ÆÄÀÏÀÇ ±æÀÌ º¯È¯
+		client_info.file_info.file_size = GetFileSizeToFilePointer(client_info.file_info.file); //íŒŒì¼ì˜ ê¸¸ì´ ë³€í™˜
 		if (client_info.file_info.file_size == 0xFFFFFFFF)
 		{
 			printf("File Size Error\n");
@@ -74,20 +74,20 @@ int main()
 		printf("File Size: %d\n", client_info.file_info.file_size);
 
 		if (client_info.file_info.file_size < GIGABYTE)
-			client_info.file_info.buffer = (char*)malloc(client_info.file_info.file_size/5); //¸ÅÅ©·Î º¯°æ°í·Á
+			client_info.file_info.buffer = (char*)malloc(client_info.file_info.file_size/5); //ë§¤í¬ë¡œ ë³€ê²½ê³ ë ¤
 		else
 		{
 			client_info.file_info.file_size = GIGABYTE;
 			client_info.file_info.buffer = (char*)malloc(GIGABYTE/5);
 		}
 
-		io_info.wsa_buf.buf = io_info.client_info->file_info.buffer;
+		io_info.wsa_buf.buf = client_info.file_info.buffer;
 		io_info.wsa_buf.len = client_info.file_info.file_size / 5;
 
 		InitializeCriticalSection(&cs);
 		memset((void*)(client_info.file_info.buffer), 0, client_info.file_info.file_size/5);
 
-		retval = send(client_info.sock, (char*)&(client_info.file_info.file_size),sizeof(int),0); //ÆÄÀÏÀÇ ±æÀÌ º¸³¿
+		retval = send(client_info.sock, (char*)&(client_info.file_info.file_size),sizeof(int),0); //íŒŒì¼ì˜ ê¸¸ì´ ë³´ëƒ„
 		if (retval == SOCKET_ERROR)
 		{
 			err_display("Send.");
@@ -97,9 +97,10 @@ int main()
 			thread_pool[i] = CreateThread(NULL, 0, SendFileData, (void*)&io_info, 0, NULL);
 
 		WaitForMultipleObjects(THREAD_NUMBER, thread_pool, TRUE, INFINITE);
-		DeleteCriticalSection(&cs); //¾²·¹µå Á¾·á ÈÄ ÀÓ°è¿µ¿ª »èÁ¦
+		free(client_info.file_info.buffer);
+		DeleteCriticalSection(&cs); //ì“°ë ˆë“œ ì¢…ë£Œ í›„ ì„ê³„ì˜ì—­ ì‚­ì œ
 
-												   //3. ÆÄÀÏ Ãâ·Â ÈÄ CRC°Ë»ç(¼­¹ö¿¡¼­ Ã³¸® ÈÄ Å¬¶óÀÌ¾ğÆ®¿¡ º¸³¿)
+												   //3. íŒŒì¼ ì¶œë ¥ í›„ CRCê²€ì‚¬(ì„œë²„ì—ì„œ ì²˜ë¦¬ í›„ í´ë¼ì´ì–¸íŠ¸ì— ë³´ëƒ„)
 		printf("Download Over. Check CRC......\n");
 		unsigned long client_crc, file_crc;
 		BOOL is_success;
@@ -115,12 +116,12 @@ int main()
 
 		printf("Server File CRC: %x         Client File CRC: %x\n", file_crc, client_crc);
 
-		if (file_crc != client_crc) //CRC°¡ Æ²¸®¸é ½ÇÆĞÀÓ
+		if (file_crc != client_crc) //CRCê°€ í‹€ë¦¬ë©´ ì‹¤íŒ¨ì„
 		{
 			printf("Download Fail.\n");
 			is_success = FALSE;
 		}
-		else  //°°À¸¸é ¼º°øÀÓ
+		else  //ê°™ìœ¼ë©´ ì„±ê³µì„
 		{
 			printf("Download Success.\n");
 			is_success = TRUE;
