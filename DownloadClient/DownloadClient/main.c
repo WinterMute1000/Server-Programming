@@ -12,7 +12,7 @@ int main(int argc, char *argv[])
 	ClientInfo sock_info;
 	HANDLE set_thread;
 	int retval;
-	// À©¼Ó ÃÊ±âÈ­
+	// ìœˆì† ì´ˆê¸°í™”
 	WSADATA wsa;
 	if (WSAStartup(MAKEWORD(2, 2), &wsa) != 0)
 		return 1;
@@ -22,15 +22,16 @@ int main(int argc, char *argv[])
 	CreateAndConnectSocket(&sock_info);
 	InitializeCriticalSection(&cs);
 
-	set_thread = CreateThread(NULL, 0, StartRecv, (LPVOID)&sock_info, 0, NULL); //Àü¼Û ¹Ş±â ½ÃÀÛ
+	set_thread = CreateThread(NULL, 0, StartRecv, (LPVOID)&sock_info, 0, NULL); //ì „ì†¡ ë°›ê¸° ì‹œì‘
 
 	WaitForSingleObject(set_thread, INFINITE);
 	for (int i = 0; i < THREAD_NUMBER; i++)
-		thread_pool[i] = CreateThread(NULL, 0, RecvFileData, (LPVOID)&sock_info, 0, NULL); //¾²·¹µå »ı¼º
+		thread_pool[i] = CreateThread(NULL, 0, RecvFileData, (LPVOID)&sock_info, 0, NULL); //ì“°ë ˆë“œ ìƒì„±
 	WaitForMultipleObjects(THREAD_NUMBER, thread_pool, TRUE, INFINITE);
+	free(sock_info.file_info.buffer);
 	DeleteCriticalSection(&cs);
 
-	//ÆÄÀÏÀ» ´Ù ¹ŞÀº ÈÄ CRC °è»ê
+	//íŒŒì¼ì„ ë‹¤ ë°›ì€ í›„ CRC ê³„ì‚°
 	unsigned long file_crc;
 	BOOL is_success;
 	fclose(sock_info.file_info.file);
@@ -39,7 +40,7 @@ int main(int argc, char *argv[])
 	file_crc = getFileCRC(sock_info.file_info.file);
 	printf("CRC Result: %x\n", file_crc);
 
-	retval = send(sock_info.sock, (char*)&file_crc, sizeof(unsigned long), 0); //CRC¸¦ º¸³»¼­ ¼­¹ö·Î ºÎÅÍ È®ÀÎ
+	retval = send(sock_info.sock, (char*)&file_crc, sizeof(unsigned long), 0); //CRCë¥¼ ë³´ë‚´ì„œ ì„œë²„ë¡œ ë¶€í„° í™•ì¸
 
 	if (retval == SOCKET_ERROR)
 	{
